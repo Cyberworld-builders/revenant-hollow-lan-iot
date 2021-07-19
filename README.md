@@ -35,6 +35,9 @@ or posession)
 - install mongo`pip install Flask-PyMongo`
 
 #### Mongo
+mongo on ubuntu 20 is kind of a pain. i'll run through the process again later and clean up these docs, but getting it to work was a mess. the main idea is that ubuntu 20 ships with a version of
+mongo that you don't want. you have to completely remove that one, then become root with `sudo su` and
+more or less follow the below instructions.
 - `wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -`
 - `echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list`
 - `sudo apt-get install -y mongodb-org`
