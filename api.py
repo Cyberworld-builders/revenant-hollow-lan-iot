@@ -39,7 +39,7 @@ parser.add_argument('idle')
 class Location(Resource):
     def get(self, location_ip):
         abort_if_location_doesnt_exist(location_ip)
-        query = db.locations.find({'ip': "10.0.0.6"})[0]
+        query = db.locations.find({'ip': location_ip})[0]
         location = {
             'ip'  :   query['ip'],
             'name'  :   query['name'],
