@@ -9,6 +9,12 @@ with a simple API package to expose the nodes on the network. This should help t
 props and effects that are controlled by the Pi. The servers, however will need more robust authentication
 and CRUD capabilities since they are exposed to the internet and interface closely with the main database.
 
+NEW UPDATE: this codebase will in fact handle the IOT server as well as the nodes. It turns out Flask authentication is fine, and setting up a second Laravel
+API on the LAN just to control the IOT nodes would be overkill, redundant and sloppy. There are also additional layers of security we can implement on the network equipment, so I'm more confident in my ability to harden the LAN. It would also be a mess to combine the LAN server codebase with the Cloud API. 
+Another benefit of sharing the same codebase on all devices on the LAN is that Python is the obvious choice for scripting on the Raspberry Pi nodes and this 
+forces us to dive deep into Python and Flask and stay sharp and comfortable with developing and deploying changes in the language and framework that will be
+the most useful overall. 
+
 Each node will therefore run the most light-weight API possible and store only the data relevant to the active
 experiences that are proximal to it geographically. We will use a small, simple Mongodb that lives on the Pi itself
 and primarily persist the location haunt object, any effect and phenomena objects relational to it, and possibly
