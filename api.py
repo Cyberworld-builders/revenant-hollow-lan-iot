@@ -3,6 +3,8 @@ from flask_restful import reqparse, abort, Api, Resource
 from flask_pymongo import PyMongo, MongoClient
 from bson.objectid import ObjectId
 import ast
+import socket
+import requests
 
 app = Flask(__name__)
 api = Api(app)
@@ -77,6 +79,14 @@ class Location(Resource):
         }
 
         query = db.locations.update_one(filter,location)
+
+        local_ip = (([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")] or [[(s.connect(("8.8.8.8", 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) + ["no IP found"])[0]
+
+        if ip != local_ip:
+            return {'message': "This address is not the local IP of the IOT server. Please forward this request to the IOT node at this address."}, 200
+            # r = requests.put('http://' + ip + '/locations/' + ip, data ={'ip': ip, 'name': name, 'idle': idle})
+            # return r
+
         return location, 201
 
 # LocationList
@@ -98,6 +108,7 @@ class LocationList(Resource):
         query = db.locations.find({'ip': args['ip']})
         if query.count() > 0:
             abort(409, message="Location {} already exists".format(args['ip']))
+
 
         # return ips
 
